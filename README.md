@@ -16,11 +16,22 @@ Custom enhancements for the official MyAnimeList Android app (`net.myanimelist.a
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
+> **[v1.0.0](https://github.com/0-BlackSpectrum-0/MAL-Patches/releases/tag/v1.0.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;2 patches total
+<details open>
+<summary>📦 MyAnimeList&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
+<br>
 
-| Patch | Description | Target Version |
-| :--- | :--- | :--- |
-| **AMOLED black theme** | Replaces the dark theme backgrounds with pure pitch black (`#000000`). | `2.3.15` |
-| **Open links in app** | Opens `myanimelist.net` web links directly in the MyAnimeList app instead of an external browser. | `2.3.15` |
+**🎯 Supported versions:**
+
+| 2.3.15 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [AMOLED black theme](#amoled-black-theme) | Replaces the dark theme backgrounds with solid pure black (#000000). |  |
+| [Open links in app](#open-links-in-app) | Opens myanimelist.net web links directly in the MyAnimeList app instead of an external browser. |  |
+
+</details>
 
 <!-- PATCHES_END -->
 
