@@ -16,6 +16,8 @@ jobs:
       id-token: write
       attestations: write
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -41,8 +43,7 @@ jobs:
       - name: Release
         uses: cycjimmy/semantic-release-action@v6
         id: release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
 
       - name: Attest
         if: steps.release.outputs.new_release_published == 'true'
@@ -51,12 +52,9 @@ jobs:
           subject-name: 'Morphe Patches ${{ steps.release.outputs.new_release_git_tag }}'
           subject-path: patches/build/libs/patches-*.mpp
 
-      # If semantic-release did not create a new release (e.g. manual dispatch or chore commit),
-      # build the MPP bundle and upload it as a workflow artifact so it is always accessible.
+      # Build MPP bundle if semantic-release did not create a release
       - name: Build MPP bundle
         if: steps.release.outputs.new_release_published != 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew :patches:buildAndroid --no-daemon
 
       - name: Upload MPP artifact
@@ -65,3 +63,16 @@ jobs:
         with:
           name: spectre-patches-mpp
           path: patches/build/libs/patches-*.mpp
+
+      - name: Create GitHub Release with MPP bundle
+        if: steps.release.outputs.new_release_published != 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0
+          name: Spectre patches v1.0.0
+          body: |
+            ## Spectre patches for MyAnimeList (v2.3.15)
+            - **AMOLED black theme**: Replaces dark mode with solid pure black (#000000).
+            - **Open links in app**: Handles `myanimelist.net` deep links directly inside the app.
+          files: patches/build/libs/patches-*.mpp
+          fail_on_unmatched_files: false
